@@ -29,3 +29,48 @@
 section {
     padding: calc(2 * var(--section-spacing)) 0;
 }
+
+
+
+
+header {
+    background-image: url(../img/wall.png);
+    padding: 1rem;
+}
+
+h1 {
+    font-family: 'Edu Tas Beginner', sans-serif;
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+
+
+
+
+
+
+main {
+    background-image: url(../img/cork.png);
+}
+
+
+.card {
+    border-radius: 0;
+}
+.card-header {
+    position: relative;
+}
+.card-pin {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -25%);
+}
+.card-img-top {
+    background-color: #333;
+    display: block;
+    border-radius: 0;
+
+    aspect-ratio: 1;
+}
