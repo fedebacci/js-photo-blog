@@ -1,0 +1,31 @@
+/* ===== DEFAULT CSS ===== */
+
+/* ↩️ RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* ⚠️ DEBUG */
+.debug ,
+.debug * {
+    padding: 5px;
+    background-color: #ff000022;
+    border: 2px dashed red;
+}
+
+/* 🔁 VARIABILI */
+:root {
+    --section-spacing: 1rem;
+}
+
+
+
+/* ===== CUSTOM CSS BELOW ===== */
+
+/* ⚙️  UTILS */
+section {
+    padding: calc(2 * var(--section-spacing)) 0;
+}
