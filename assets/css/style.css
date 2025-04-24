@@ -58,6 +58,9 @@ main {
 .card {
     border-radius: 0;
 }
+.card * {
+    pointer-events: none;
+}
 .card-header {
     position: relative;
 }
@@ -80,4 +83,25 @@ main {
 }
 .date {
     font-family:'Sometype Mono', 'monospace';
+}
+
+
+
+#image-detail {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(255,255,255,.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+#image-detail .img-detail-container {
+    max-width: 50vw;
+    aspect-ratio: 1;
+}
+#image-detail .img-detail-container img {
+    display: block;
+    width: 100%;
 }
