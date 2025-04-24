@@ -74,3 +74,10 @@ main {
 
     aspect-ratio: 1;
 }
+
+.card-title {
+    font-family: 'Edu Tas Beginner', sans-serif;
+}
+.date {
+    font-family:'Sometype Mono', 'monospace';
+}
