@@ -269,6 +269,7 @@ const showImageDetailEl = (imageURL = placeholderURL) => {
 const hideImageDetailEl = () => {
     // * NON NECESSARIO
     imageDetailImgEl.src = placeholderURL;
+    // todo ? FORSE RESETTARE DATA-ATTRIBUTES DEL PULSANTE DI CHIUSURA, MA NON SAREBBE NECESSARIO
 
     imageDetailEl.classList.add('d-none');
 };

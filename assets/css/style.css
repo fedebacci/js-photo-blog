@@ -58,6 +58,12 @@ main {
 .card {
     border-radius: 0;
 }
+.card:hover {
+    transform: rotate(10deg);
+    transition: transform 750ms ease;
+}
+
+
 .card * {
     pointer-events: none;
 }
