@@ -115,7 +115,7 @@ const generateCardColumn = (cardData) => {
     const cardColumnEl = document.createElement('div');
     cardColumnEl.className = 'col-12 col-sm-6 col-lg-4';
     const cardEl = document.createElement('div');
-    cardEl.className = 'card h-100';
+    cardEl.className = 'card shadow h-100';
     cardEl.dataset.id = cardData.id;
     cardEl.innerHTML = 
     `

@@ -57,10 +57,16 @@ main {
 
 .card {
     border-radius: 0;
+    
+    transform-origin: top center;
+    transition: transform 750ms ease, box-shadow 750ms ease;
 }
 .card:hover {
     transform: rotate(10deg);
-    transition: transform 750ms ease;
+
+    box-shadow: 0 .66rem 1.15rem rgba(0,0,0,.3) !important;
+
+    z-index: 1000;
 }
 
 
@@ -104,6 +110,8 @@ main {
     justify-content: center;
     align-items: center;
     gap: 2rem;
+
+    z-index: 10000;
 }
 #image-detail .img-detail-container {
     max-width: 50vw;
