@@ -90,9 +90,8 @@ const loadCards = (apiUri = 'https://lanciweb.github.io/demo/api/pictures/') =>{
 
             cardsDataArr = response.data;
             // console.debug("cardsDataArr", cardsDataArr);
-            cardsDataArr.forEach(cardData => {
-                generateCardColumn(cardData);
-            });
+
+            generateCardsRow(cardsDataArr);
         })
         .catch (error=> {
             console.error("ERRORE:", error);
@@ -104,51 +103,100 @@ const loadCards = (apiUri = 'https://lanciweb.github.io/demo/api/pictures/') =>{
 
 
 
+// - FUNZIONE CHE RICEVE LE INFORMAZIONI DI TUTTE LE CARD RICEVUTE DALLA RICHIESTA E FA DUE COSE: GENERA L'HTML DI TUTTE LE CARD E POI SETTA I LISTENER DI EVENTI SULLE CARDS GENERATE
+    // - RICHIAMA LA FUNZIONE generateCardsRowHTML CHE RICEVE LE INFORMAZIONI OTTENUTE DALLA RICHIESTA E GENERA L'HTML DI TUTTE LE CARDS RICEVUTE
+    // - RICHIAMA LA FUNZIONE setCardsEventListeners CHE CERCA TUTTE LE CARD GENERATE E SETTA L'EVENT LISTENER DEL CLICK
+/**
+ * Funzione che riceve l'array contenente le informazioni di tutte le card ricevute dalla richiesta e richiama due funzioni: 
+ * generateCardsRowHTML(cardsDataArr) genera l'html di tutte le card e poi setta I listener di eventi sulle cards generate
+ * setCardsEventListeners() imposta i listener del click delle cards
+ * @param {Array<object>} cardsDataArr Array di cards ricevuto dalla risposta 
+ */
+const generateCardsRow = (cardsDataArr) => {
+    generateCardsRowHTML(cardsDataArr);
+    setCardsEventListeners();
+};
+
+
+
+// - FUNZIONE CHE RICEVE DA generateCardsRowHTML LE INFORMAZIONI DI TUTTE LE CARD RICEVUTE DALLA RICHIESTA E CICLA L'ARRAY PER GENERARE L'HTML DI TUTTE LE CARD, CHE INFINE INSERISCE IN PAGINA.
+    // - RICHIAMA LA FUNZIONE generateCardColumn CHE OTTIENE I DATI DI UNA SINGOLA CARD ALL'INTERNO DEL CICLO DELLA RISPOSTA, GENERA L'HTML E LO AGGIUNGE A QUELLO PRECEDENTEMENTE GENERATO.
+/**
+ * Funzione che riceve da generateCardsRowHTML le informazioni di tutte le card ricevute dalla richiesta e cicla l'array per generare, tramite la funzione generateCardColumn(cardData), l'html di tutte le card, che infine inserisce in pagina.
+ * @param {Array<object>} cardsDataArr Array di cards ricevuto nella risposta ottenuta dall'API per cui dobbiamo generare le cards sul tabellone
+ */
+const generateCardsRowHTML = (cardsDataArr) => {
+    let cardsRowHTML = '';
+    cardsDataArr.forEach(cardData => {
+        const newHTML = generateCardColumn(cardData);
+        // console.debug(newHTML);
+        
+        cardsRowHTML += newHTML;
+        // console.debug(cardsRowHTML);
+    });
+    // console.debug(cardsRowHTML);
+
+    cardsRowElement.innerHTML = cardsRowHTML;
+};
+
+
+
+// - FUNZIONE CHE CERCA TUTTE LE CARD GENERATE E AGGIUNGE L'EVENT LISTENER PER  IL CLICK PER APRIRE IL DETTAGLIO DELL'IMMAGINE
+    // - Solo al click DELL'ELEMENTO: RICHIAMA LA FUNZIONE showImageDetail CHE MOSTRA IL DETTAGLIO DELL'IMMAGINE CLICCATA E LE PASSA URL E CARDID
+/**
+ * Funzione che cerca tutte le card generate e aggiunge l'event listener per  il click per aprire il dettaglio dell'immagine, passando come parametri: cardId e cardToShow, ottenuti con i due diversi metodi. 
+ * cardId è stato ottenuto con i data-attributes inseriti nell'HTML, 
+ * cardToShow rappresenta invece il singolo oggetto di una card ottenuta dall'array ricevuto con axios
+ */
+const setCardsEventListeners = () => {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(cardEl => {
+        cardEl.addEventListener('click', (e) => {
+            // console.debug("Target: ", e.target);
+            // console.debug("Evento click di: ", e.target.dataset.id);
+            const cardId = parseInt(e.target.dataset.id);
+            // console.debug("cardId", cardId);
+            // console.debug("cardsDataArr", cardsDataArr);
+            const cardToShow = cardsDataArr.find(card => card.id === cardId);
+            // console.debug("cardToShow", cardToShow);
+            // todo CAPIRE SE HA PIU SENSO PASSARE NELLA FUNZIONE E.TARGET E SEPARARE LE INFORMAZIONI CHE MI SERVONO LI DENTRO
+            showImageDetail(cardToShow.url, cardId);
+        });
+    });
+};
+
+
+
 // - FUNZIONE CHE RICEVE LE INFORMAZIONI DI UNA CARD E GENERA UNA COLONNA CONTENENTE LA CARD CON LE INFORMAZIONI RICEVUTE
 /**
- * Funzione che riceve un oggetto con le informazioni della card e inserisce una colonna per ogni card da aggiungere al tabellone. Aggiunge alla card l'event listener per il click per poter aprire il dettaglio dell'immagine
+ * Funzione che riceve un oggetto con le informazioni della card e inserisce una colonna per ogni card da aggiungere al tabellone.
  * @param {object} cardData Oggetto contenente le informazioni per generare la card. Deve avere: url: string, title: string, date: string, id: number
  */
 const generateCardColumn = (cardData) => {
     // console.debug("cardData", cardData);
     
-    const cardColumnEl = document.createElement('div');
-    cardColumnEl.className = 'col-12 col-sm-6 col-lg-4';
-    const cardEl = document.createElement('div');
-    cardEl.className = 'card shadow h-100';
-    cardEl.dataset.id = cardData.id;
-    cardEl.innerHTML = 
+    const cardColumnEl = 
     `
-        <div class="card-header border-0 p-3">
-            <img src="./assets/img/pin.svg" class="card-pin" alt="decorative pin">
-            <img src="${cardData.url}" class="card-img-top" alt="${cardData.title}">
-        </div>
-        <div class="card-body pt-0 pb-3 px-3">
-            <h5 class="card-title mb-0">
-                ${cardData.title}
-            </h5>
-            <p class="date mb-0">
-                ${cardData.date}
-            </p>
+        <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card shadow h-100" data-id="${cardData.id}">
+                <div class="card-header border-0 p-3">
+                    <img src="./assets/img/pin.svg" class="card-pin" alt="decorative pin">
+                    <img src="${cardData.url}" class="card-img-top" alt="${cardData.title}">
+                </div>
+                <div class="card-body pt-0 pb-3 px-3">
+                    <h5 class="card-title mb-0">
+                        ${cardData.title}
+                    </h5>
+                    <p class="date mb-0">
+                        ${cardData.date}
+                    </p>
+                </div>
+            </div>
         </div>
     `;
-    cardEl.addEventListener('click', (e) => {
-        // console.debug("Evento click di: ", e.target.dataset.id);
-        const cardId = parseInt(e.target.dataset.id);
-        // console.debug("cardId", cardId);
-        // console.debug("cardsDataArr", cardsDataArr);
-        const cardToShow = cardsDataArr.find(card => card.id === cardId);
-        // console.debug("cardToShow", cardToShow);
-        // todo CAPIRE SE HA PIU SENSO PASSARE NELLA FUNZIONE E.TARGET E SEPARARE LE INFORMAZIONI CHE MI SERVONO LI DENTRO
-        showImageDetail(cardToShow.url, cardId);
-    });
     // console.debug("cardEl", cardEl);
 
-    cardColumnEl.appendChild(cardEl);
-    // console.debug("cardColumnEl", cardColumnEl);
-    
-    cardsRowElement.appendChild(cardColumnEl);
-    // console.debug("cardsRowElement", cardsRowElement);
+    return cardColumnEl;
 };
 
 
@@ -175,7 +223,7 @@ const showImageDetail = (imageURL, cardId) => {
     // console.debug("imageURL:", imageURL);
     // console.debug("cardId:", cardId);
 
-    hideImageCard(cardId);
+    hideCardImage(cardId);
     showImageDetailEl(imageURL);
 
     imageDetailCloseButton.dataset.cardId = cardId;
@@ -199,7 +247,7 @@ const hideImageDetail = (cardId, imageURL) => {
     // console.debug("imageURL", imageURL);
 
     hideImageDetailEl();
-    showImageCard(cardId, imageURL);
+    showCardImage(cardId, imageURL);
 };
 
 
@@ -214,13 +262,13 @@ const hideImageDetail = (cardId, imageURL) => {
  * Funzione che riceve l'id della card cliccata e ne sostituisce l'immagine sul tabellone (che poi verrà mostrata nel dettaglio) con il placeholder scelto
  * @param {number} cardId Id numerico della card ricevuto da showImageDetail e utilizzato per trovare nel DOM la card alla quale sostituire l'url.
  */
-const hideImageCard = (cardId) => {
+const hideCardImage = (cardId) => {
     // console.debug("cardId", cardId);
 
-    const imageCard = document.querySelector('[data-id="' + cardId + '"]').querySelector('.card-img-top');
-    // console.debug("imageCard", imageCard);
+    const cardImage = document.querySelector('[data-id="' + cardId + '"]').querySelector('.card-img-top');
+    // console.debug("cardImage", cardImage);
 
-    imageCard.src = placeholderURL;
+    cardImage.src = placeholderURL;
 };
 
 
@@ -232,14 +280,14 @@ const hideImageCard = (cardId) => {
  * @param {number} cardId Id numerico della card ricevuto da hideImageDetail e utilizzato per trovare nel DOM la card alla quale sostituire l'url.
  * @param {string} cardId URL della card ricevuto da hideImageDetail e reimpostato come url dell'immagine della card trovata.
  */
-const showImageCard = (cardId, imageURL) => {
+const showCardImage = (cardId, imageURL) => {
     // console.debug("cardId", cardId);
     // console.debug("imageURL", imageURL);
 
-    const imageCard = document.querySelector('[data-id="' + cardId + '"]').querySelector('.card-img-top');
-    // console.debug("imageCard", imageCard);
+    const cardImage = document.querySelector('[data-id="' + cardId + '"]').querySelector('.card-img-top');
+    // console.debug("cardImage", cardImage);
 
-    imageCard.src = imageURL;
+    cardImage.src = imageURL;
 };
 
 

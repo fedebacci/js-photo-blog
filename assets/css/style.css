@@ -57,6 +57,7 @@ main {
 
 .card {
     border-radius: 0;
+    cursor: pointer;
     
     transform-origin: top center;
     transition: transform 750ms ease, box-shadow 750ms ease;
