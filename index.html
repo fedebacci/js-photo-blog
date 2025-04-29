@@ -60,17 +60,42 @@
     </header>
 
     <main>
-        <!-- <section>
+        <section id="settings">
             <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <h1>
-                            JS Photo Blog
-                        </h1>
-                    </div>
+                <div class="card p-3">
+                    <form class="row g-3">
+                        <div class="col-md-6">
+                            <label for="inputAnimationType" class="form-label">
+                                Animation type
+                            </label>
+                            <select id="inputAnimationType" class="form-select">
+                                <option value="center" selected>
+                                    Center
+                                </option>
+                                <option value="pin">
+                                    Pin
+                                </option>
+                            </select>
+                        </div>
+                        <!-- <div class="col-md-6">
+                            <label for="inputGalleryType" class="form-label">
+                                Gallery type
+                            </label>
+                            <select id="inputGalleryType" class="form-select">
+                                <option value="pinboard" selected>
+                                    Pinboard
+                                </option>
+                                <option value="carousel">
+                                    Carousel
+                                </option>
+                            </select>
+                        </div> -->
+                    </form>
                 </div>
             </div>
-        </section> -->
+        </section>
+
+
         <section>
             <div class="container">
                 <div class="row gy-3" id="cards-row-element">

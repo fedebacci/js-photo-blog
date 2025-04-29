@@ -54,18 +54,17 @@ main {
 }
 
 /* * SINGOLA CARD */
-.card {
+#cards-row-element .card {
     border-radius: 0;
     cursor: pointer;
     
-    /* transform-origin: top center; */
     transition: 
         transform 750ms ease, 
         box-shadow 750ms ease,
         scale 750ms ease;
 }
 /* * ANIMAZIONE HOVER SINGOLA CARD */
-.card:hover {
+#cards-row-element .card:hover {
     transform: 
         rotate(5deg)
         scale(105%);
@@ -77,23 +76,23 @@ main {
 
 
 /* * RIMOZIONE POINTER EVENTS A TUTTI FIGLI DELLA CARD PER EVENTO CLICK JS */
-.card * {
+#cards-row-element .card * {
     pointer-events: none;
 }
 /* * STILE GENERALE DELLA CARD */
 /* * Position relative al card-header per il posizionamento della puntina */
-.card-header {
+#cards-row-element .card-header {
     position: relative;
 }
 /* * Posizionamento della puntina */
-.card-pin {
+#cards-row-element .card-pin {
     position: absolute;
     top: 0;
     left: 50%;
     transform: translate(-50%, -25%);
 }
 /* * Stile dell'immagine */
-.card-img-top {
+#cards-row-element .card-img-top {
     background-color: #333;
     display: block;
     border-radius: 0;
@@ -102,10 +101,10 @@ main {
 }
 
 /* * Font di titolo e data della card */
-.card-title {
+#cards-row-element .card-title {
     font-family: 'Edu Tas Beginner', sans-serif;
 }
-.date {
+#cards-row-element .date {
     font-family:'Sometype Mono', 'monospace';
 }
 
@@ -165,7 +164,7 @@ main {
 /* # MEDIA QUERY */
 @media screen and (min-width: 767px) {
     /* * DA SCHERMI MEDI IN POI AUMENTO INCLINAZIONE CARD IN HOVER A 10DEG DA 5DEG INIZIALI E AUMENTO LO ZOOM IN HOVER A 110% DAI 105% INIZIALI (NB: HOVER SU DISPOSITIVI PICCOLI NON DOVREBBE ESSERE POSSIBILE E DOVREI POTER OMETTERE LO SCALAMENTO FINO A QUESTA DIMENSIONE DELLO SCHERMO) */
-    .card:hover {
+    #cards-row-element .card:hover {
         transform: 
             rotate(10deg)
             scale(110%);

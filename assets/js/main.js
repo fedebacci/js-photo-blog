@@ -20,7 +20,10 @@
 const apiUri = 'https://lanciweb.github.io/demo/api/pictures/';
 const placeholderURL = "./assets/img/image-placeholder.png";
 let cardsDataArr = [];
-
+const settings = {
+    animationType: 'center',
+    // galleryType: 'pinboard',
+};
 
 
 
@@ -33,13 +36,21 @@ let cardsDataArr = [];
 // # ELEMENTI DEL DOM CON CUI INTERAGIRE
 const spinnerOverlayEl = document.querySelector('.spinner-overlay');
 // console.debug('spinnerOverlayEl', spinnerOverlayEl);
+
 const cardsRowElement = document.getElementById('cards-row-element');
 // console.debug('cardsRowElement', cardsRowElement);
+
 const imageDetailEl = document.getElementById('image-detail');
 // console.debug('imageDetailEl', imageDetailEl);
 const imageDetailCloseButton = imageDetailEl.querySelector('.btn');
 // console.debug('imageDetailCloseButton', imageDetailCloseButton);
 const imageDetailImgEl = imageDetailEl.querySelector('img');
+// console.debug('imageDetailImgEl', imageDetailImgEl);
+
+const inputAnimationType = document.getElementById('inputAnimationType');
+// console.debug('inputAnimationType', inputAnimationType);
+// const inputGalleryType = document.getElementById('inputGalleryType');
+// // console.debug('inputGalleryType', inputGalleryType);
 
 
 
@@ -61,6 +72,22 @@ imageDetailCloseButton.addEventListener('click', (e) => {
 
     hideImageDetail(e.target.dataset.cardId, e.target.dataset.url);
 })
+
+
+inputAnimationType.value = settings.animationType;
+inputAnimationType.addEventListener('change', (e) => {
+    e.preventDefault();
+    setAnimationType(e.target.value);
+})
+// inputGalleryType.addEventListener('change', (e) => {
+//     e.preventDefault();
+
+//     console.info(`Era: ${settings.galleryType}`);
+//     console.info(`Cambiato in: ${e.target.value}`);
+//     settings.galleryType = e.target.value;
+
+//     // setGalleryType(e.target.value);
+// })
 
 
 
@@ -115,6 +142,7 @@ const loadCards = (apiUri = 'https://lanciweb.github.io/demo/api/pictures/') =>{
 const generateCardsRow = (cardsDataArr) => {
     generateCardsRowHTML(cardsDataArr);
     setCardsEventListeners();
+    setAnimationType(settings.animationType);
 };
 
 
@@ -149,7 +177,7 @@ const generateCardsRowHTML = (cardsDataArr) => {
  * cardToShow rappresenta invece il singolo oggetto di una card ottenuta dall'array ricevuto con axios
  */
 const setCardsEventListeners = () => {
-    const cards = document.querySelectorAll('.card');
+    const cards = cardsRowElement.querySelectorAll('.card');
     cards.forEach(cardEl => {
         cardEl.addEventListener('click', (e) => {
             // console.debug("Target: ", e.target);
@@ -351,6 +379,38 @@ const hideSpinnerOverlayEl = () => {
 };
 
 
+const setAnimationType = (animationType = 'center') => {
+    console.info(`Era: ${settings.animationType}`);
+    console.info(`Cambiato in: ${animationType}`);
+    
+    settings.animationType = animationType;
+
+    const cards = cardsRowElement.querySelectorAll('.card');
+    console.debug("cards", cards);
+
+    // let transformOriginString = 'center';
+    let transformOriginString = '';
+    if (animationType === 'center') {
+        transformOriginString = 'center center';
+    } else if (animationType === 'pin') {
+        const examplePin = document.querySelector('.card-pin');
+        // console.debug("examplePin", examplePin);
+        // console.debug("examplePin.height", examplePin.height);
+        transformOriginString = `center ${examplePin.height / 4}px`;
+    } else {
+        console.error("Errore");
+    };
+
+    cards.forEach(cardEl => {
+        cardEl.style.transformOrigin = transformOriginString;
+    });
+};
+// const setGalleryType = (galleryType) => {
+//     console.info(`Era: ${settings.galleryType}`);
+//     console.info(`Cambiato in: ${e.target.value}`);
+
+//     settings.galleryType = galleryType;
+// };
 
 
 
