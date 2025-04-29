@@ -1,6 +1,6 @@
-/* ===== DEFAULT CSS ===== */
+/* # ===== DEFAULT CSS ===== */
 
-/* ↩️ RESET */
+/* - ↩️ RESET */
 * {
     margin: 0;
     padding: 0;
@@ -8,7 +8,7 @@
     font-size: 16px;
 }
 
-/* ⚠️ DEBUG */
+/* - ⚠️ DEBUG */
 .debug ,
 .debug * {
     padding: 5px;
@@ -16,16 +16,12 @@
     border: 2px dashed red;
 }
 
-/* 🔁 VARIABILI */
+/* - 🔁 VARIABILI */
 :root {
     --section-spacing: 1rem;
 }
 
-
-
-/* ===== CUSTOM CSS BELOW ===== */
-
-/* ⚙️  UTILS */
+/* - ⚙️  UTILS */
 section {
     padding: calc(2 * var(--section-spacing)) 0;
 }
@@ -33,11 +29,14 @@ section {
 
 
 
+
+/* # ===== CUSTOM CSS BELOW ===== */
+/* - HEADER */
 header {
     background-image: url(../img/wall.png);
     padding: 1rem;
 }
-
+/* * TITOLO PRINCIPALE */
 h1 {
     font-family: 'Edu Tas Beginner', sans-serif;
     font-weight: bold;
@@ -49,21 +48,27 @@ h1 {
 
 
 
-
+/* - MAIN */
 main {
     background-image: url(../img/cork.png);
 }
 
-
+/* * SINGOLA CARD */
 .card {
     border-radius: 0;
     cursor: pointer;
     
-    transform-origin: top center;
-    transition: transform 750ms ease, box-shadow 750ms ease;
+    /* transform-origin: top center; */
+    transition: 
+        transform 750ms ease, 
+        box-shadow 750ms ease,
+        scale 750ms ease;
 }
+/* * ANIMAZIONE HOVER SINGOLA CARD */
 .card:hover {
-    transform: rotate(10deg);
+    transform: 
+        rotate(5deg)
+        scale(105%);
 
     box-shadow: 0 .66rem 1.15rem rgba(0,0,0,.3) !important;
 
@@ -71,18 +76,23 @@ main {
 }
 
 
+/* * RIMOZIONE POINTER EVENTS A TUTTI FIGLI DELLA CARD PER EVENTO CLICK JS */
 .card * {
     pointer-events: none;
 }
+/* * STILE GENERALE DELLA CARD */
+/* * Position relative al card-header per il posizionamento della puntina */
 .card-header {
     position: relative;
 }
+/* * Posizionamento della puntina */
 .card-pin {
     position: absolute;
     top: 0;
     left: 50%;
     transform: translate(-50%, -25%);
 }
+/* * Stile dell'immagine */
 .card-img-top {
     background-color: #333;
     display: block;
@@ -91,6 +101,7 @@ main {
     aspect-ratio: 1;
 }
 
+/* * Font di titolo e data della card */
 .card-title {
     font-family: 'Edu Tas Beginner', sans-serif;
 }
@@ -99,28 +110,32 @@ main {
 }
 
 
-
+/* * STILE DEL DETTAGLIO DELL'IMMAGINE */
 #image-detail {
     position: fixed;
     inset: 0;
-    /* background-color: rgba(255,255,255,.75); */
-    /* background-color: rgba(255,255,255,.25); */
-    background-color: rgba(255,255,255,.5);
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 2rem;
+    
+    background-color: rgba(0,0,0,.75);
 
     z-index: 10000;
 }
 #image-detail .img-detail-container {
-    max-width: 50vw;
+    max-width: 75vw;
     aspect-ratio: 1;
+
+    padding: .5rem;
+    background-color: #fff;
 }
 #image-detail .img-detail-container img {
     display: block;
     width: 100%;
+    border: 1px solid rgba(0,0,0,.5);
 }
 
 
@@ -134,10 +149,31 @@ main {
 
 
 
-
+/* * STILE DELLA SCHERMATA DI CARICAMENTO */
 .spinner-overlay {
     background-color: rgba(255,255,255,.5);
     position: absolute;
     inset: 0;
     backdrop-filter: blur(3px);
+}
+
+
+
+
+
+
+/* # MEDIA QUERY */
+@media screen and (min-width: 767px) {
+    /* * DA SCHERMI MEDI IN POI AUMENTO INCLINAZIONE CARD IN HOVER A 10DEG DA 5DEG INIZIALI E AUMENTO LO ZOOM IN HOVER A 110% DAI 105% INIZIALI (NB: HOVER SU DISPOSITIVI PICCOLI NON DOVREBBE ESSERE POSSIBILE E DOVREI POTER OMETTERE LO SCALAMENTO FINO A QUESTA DIMENSIONE DELLO SCHERMO) */
+    .card:hover {
+        transform: 
+            rotate(10deg)
+            scale(110%);
+    }
+
+
+    /* * DA SCHERMI MEDI IN POI RIDUCO LA DIMENSIONE DELL'IMMAGINE NEL DETTAGLIO A 50VW DA 75VW INIZIALI */
+    #image-detail .img-detail-container {
+        max-width: 50vw;
+    }
 }
