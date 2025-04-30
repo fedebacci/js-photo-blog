@@ -53,6 +53,36 @@ main {
     background-image: url(../img/cork.png);
 }
 
+
+
+
+
+/* * DIVERSE VERSIONI DI CAROSELLO */
+/* #cards-row-element.free-carousel {
+} */
+#cards-row-element.free-carousel .ms-5 {
+    margin-left: 0 !important;
+}
+#cards-row-element.free-carousel .me-5 {
+    margin-right: 0 !important;
+}
+#cards-row-element.free-carousel .card:hover {
+    transform: 
+        rotate(3deg)
+        scale(103%);
+}
+
+
+
+
+
+#inputGalleryType,
+.form-label[for='inputGalleryType'] {
+    display: none;
+}
+
+
+
 /* * SINGOLA CARD */
 #cards-row-element .card {
     border-radius: 0;
@@ -66,8 +96,8 @@ main {
 /* * ANIMAZIONE HOVER SINGOLA CARD */
 #cards-row-element .card:hover {
     transform: 
-        rotate(5deg)
-        scale(105%);
+        rotate(3deg)
+        scale(103%);
 
     box-shadow: 0 .66rem 1.15rem rgba(0,0,0,.3) !important;
 
@@ -162,6 +192,46 @@ main {
 
 
 /* # MEDIA QUERY */
+@media screen and (min-width: 576px) {
+
+    #inputGalleryType {
+        display: block;
+    }
+    .form-label[for='inputGalleryType'] {
+        display: inline-block;
+    }
+
+
+
+
+    #cards-row-element .card:hover {
+        transform: 
+            rotate(5deg)
+            scale(105%);
+    }
+
+
+
+    /* * DA SCHERMI piccoli IN POI IMPLEMENTO IL TIPO DI GALLERIA: "FREE-CAROUSEL" (PRIMA CREEREBBE SOLO PROBLEMI O POSSO RISOLVERE?) */
+    /* todo: CAPIRE SE PUOI RISOLVERE PER AVERLO ANCHE IN SCHERMI PICCOLI */
+    /* ? CAPIRE SE PUOI RISOLVERE PER AVERLO ANCHE IN SCHERMI PICCOLI */
+    #cards-row-element.free-carousel {
+        padding-top: 3rem;
+        /* todo: SISTEMARE STILE SBARRA DI SCORRIMENTO PER POTERLA DISTANZIARE UN PO */
+        /* padding-bottom: .25rem; */
+        overflow-y: visible;
+        overflow-x: scroll;
+
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+    #cards-row-element.free-carousel .ms-5 {
+        margin-left: 3rem !important;
+    }
+    #cards-row-element.free-carousel .me-5 {
+        margin-right: 3rem !important;
+    }
+}
 @media screen and (min-width: 767px) {
     /* * DA SCHERMI MEDI IN POI AUMENTO INCLINAZIONE CARD IN HOVER A 10DEG DA 5DEG INIZIALI E AUMENTO LO ZOOM IN HOVER A 110% DAI 105% INIZIALI (NB: HOVER SU DISPOSITIVI PICCOLI NON DOVREBBE ESSERE POSSIBILE E DOVREI POTER OMETTERE LO SCALAMENTO FINO A QUESTA DIMENSIONE DELLO SCHERMO) */
     #cards-row-element .card:hover {
