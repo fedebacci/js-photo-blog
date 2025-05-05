@@ -10,47 +10,25 @@
     Studente: Federico Bacci. 
     Corso: Boolean corso Web Development classe #144">
 
-    <!-- FONT AWESOME 6.7.2 CDN -->
+    <!-- # FONT AWESOME 6.7.2 CDN -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
 
-    <!-- BOOTSTRAP 5.3.3 CDN (CSS) -->
+    <!-- # BOOTSTRAP 5.3.3 CDN (CSS) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 
-    <!-- FONTS FROM GOOGLE FONTS -->
+    <!-- # FONTS FROM GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Edu+TAS+Beginner:wght@400..700&family=Sometype+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 
-    <!-- CUSTOM CSS -->
+    <!-- # CUSTOM CSS -->
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
 
-    <!-- <header>
-        <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">
-                    FB
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/">
-                                Home
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header> -->
     <header>
         <div class="container-fluid">
             <h1 class="text-center">
@@ -85,9 +63,6 @@
                                 <option value="pinboard" selected>
                                     Pinboard
                                 </option>
-                                <!-- <option value="carousel">
-                                    Carousel
-                                </option> -->
                                 <option value="free-carousel">
                                     Free carousel
                                 </option>
@@ -107,12 +82,11 @@
         </section>
 
         <div id="image-detail" class="d-none">
-            <!-- <div id="image-detail"> -->
             <div class="btn btn-danger">
                 Chiudi
             </div>
             <div class="img-detail-container">
-                <img src="" alt="...">
+                <img src="./assets/img/image-placeholder.png" alt="No image selected">
             </div>
         </div>
     </main>
@@ -125,15 +99,18 @@
         </div>
     </div>
 
-    <!-- BOOTSTRAP 5.3.3 CDN (JS) -->
+    <!-- # BOOTSTRAP 5.3.3 CDN (JS) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-    <!-- AXIOS CDN -->
+    <!-- # AXIOS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <!-- CUSTOM JS -->
-    <script src="./assets/js/main.js"></script>
+    <!-- # CUSTOM JS -->
+    <script src="./assets/js/settings.js"></script>
+    <script src="./assets/js/dom.js"></script>
+    <script src="./assets/js/fetch.js"></script>
+    <script src="./assets/js/app.js"></script>
 </body>
 
 </html>

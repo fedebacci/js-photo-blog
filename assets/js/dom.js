@@ -1,44 +1,12 @@
-// COMMENTO NORMALE
-// ! COMMENTO ERRORE
-// ? COMMENTO DOMANDA
-// * COMMENTO HIGHLIGHT
-// # COMMENTO WARNING
-// - COMMENTO TEXT
-// todo COMMENTO TODO
-
-
-
-
-
-
- 
-
-
- 
-// # COSTANTI NOTE
-// const apiUri = 'https://jsonplaceholder.typicode.com/';
-const apiUri = 'https://lanciweb.github.io/demo/api/pictures/';
-const placeholderURL = "./assets/img/image-placeholder.png";
-let cardsDataArr = [];
-const settings = {
-    animationType: 'center',
-    galleryType: 'pinboard',
-};
-
-
-
-
-
- 
-
-
- 
 // # ELEMENTI DEL DOM CON CUI INTERAGIRE
 const spinnerOverlayEl = document.querySelector('.spinner-overlay');
 // console.debug('spinnerOverlayEl', spinnerOverlayEl);
 
 const cardsRowElement = document.getElementById('cards-row-element');
 // console.debug('cardsRowElement', cardsRowElement);
+// *APPOGGIO PER GLI ELEMENTI HTML DELLE CARDS DA GENERARE NELLA FUNZIONE: generateCardsRowHTML(cardsDataArr) (E SETTATI IN: setCardsEventListeners)
+let cardsElArr = [];
+// console.debug('cardsElArr', cardsElArr);
 
 const imageDetailEl = document.getElementById('image-detail');
 // console.debug('imageDetailEl', imageDetailEl);
@@ -47,20 +15,12 @@ const imageDetailCloseButton = imageDetailEl.querySelector('.btn');
 const imageDetailImgEl = imageDetailEl.querySelector('img');
 // console.debug('imageDetailImgEl', imageDetailImgEl);
 
-const inputAnimationType = document.getElementById('inputAnimationType');
-// console.debug('inputAnimationType', inputAnimationType);
-const inputGalleryType = document.getElementById('inputGalleryType');
-// console.debug('inputGalleryType', inputGalleryType);
 
 
 
 
 
 
- 
-
-
- 
 // # LISTENER DI EVENTI
 // * AGGIUNGO L'EVENTO AL PULSANTE CHE CHIUDE IL DETTAGLIO DELL'IMMAGINE, INVOCANDO LA FUNZIONE hideImageDetail(e.target.dataset.cardId, e.target.dataset.url) 
 // * LE PASSO COME PARAMETRI L'URL DELL'IMMAGINE DA REINSERIRE E L'ID DELLA CARD IN CUI REINSERIRE L'IMMAGINE
@@ -74,58 +34,14 @@ imageDetailCloseButton.addEventListener('click', (e) => {
 });
 
 
-inputAnimationType.value = settings.animationType;
-inputAnimationType.addEventListener('change', (e) => {
-    // e.preventDefault();
-    setAnimationType(e.target.value);
-});
-inputGalleryType.value = settings.galleryType;
-inputGalleryType.addEventListener('change', (e) => {
-    // e.preventDefault();
-    setGalleryType(e.target.value);
-});
 
 
 
 
 
 
- 
 
-
- 
 // # FUNZIONI CHE REAGISCONO AL CARICAMENTO DELLA PAGINA
-// - FUNZIONE CHE RICEVE UN URL E CARICA LE CARDS ESEGUENDO LA RICHIESTA ALL'API SPECIFICATA
-    // - RICHIAMA LA FUNZIONE CHE GENERA LA COLONNA CONTENENTE LA CARD POPOLATA CON I DATI RICEVUTI
-/**
- * Funzione che richiede all'api: `apiUri (default = https://lanciweb.github.io/demo/api/pictures/)` le informazioni di n cards e chiama la funzione generateCardColumn per ciascuna delle cards da generare
- * @param {string} apiUri URI Dell'API alla quale eseguire la richiesta. Come risposta **DEVE** darmi un array di oggetti con le informazioni delle card
- */
-const loadCards = (apiUri = 'https://lanciweb.github.io/demo/api/pictures/') =>{
-
-    showSpinnerOverlayEl();
-    // console.debug("spinnerOverlayEl", spinnerOverlayEl);
-
-    axios
-        .get(apiUri)
-        .then(response => {
-            // console.debug("response", response);
-
-            cardsDataArr = response.data;
-            // console.debug("cardsDataArr", cardsDataArr);
-
-            generateCardsRow(cardsDataArr);
-        })
-        .catch (error=> {
-            console.error("ERRORE:", error);
-        })
-        .finally(() => {
-            hideSpinnerOverlayEl();
-        });
-};
-
-
-
 // - FUNZIONE CHE RICEVE LE INFORMAZIONI DI TUTTE LE CARD RICEVUTE DALLA RICHIESTA E FA DUE COSE: GENERA L'HTML DI TUTTE LE CARD E POI SETTA I LISTENER DI EVENTI SULLE CARDS GENERATE
     // - RICHIAMA LA FUNZIONE generateCardsRowHTML CHE RICEVE LE INFORMAZIONI OTTENUTE DALLA RICHIESTA E GENERA L'HTML DI TUTTE LE CARDS RICEVUTE
     // - RICHIAMA LA FUNZIONE setCardsEventListeners CHE CERCA TUTTE LE CARD GENERATE E SETTA L'EVENT LISTENER DEL CLICK
@@ -139,6 +55,7 @@ const generateCardsRow = (cardsDataArr) => {
     generateCardsRowHTML(cardsDataArr);
     setCardsEventListeners();
     setAnimationType(settings.animationType);
+    setGalleryType(settings.galleryType);
 };
 
 
@@ -161,32 +78,6 @@ const generateCardsRowHTML = (cardsDataArr) => {
     // console.debug(cardsRowHTML);
 
     cardsRowElement.innerHTML = cardsRowHTML;
-};
-
-
-
-// - FUNZIONE CHE CERCA TUTTE LE CARD GENERATE E AGGIUNGE L'EVENT LISTENER PER  IL CLICK PER APRIRE IL DETTAGLIO DELL'IMMAGINE
-    // - Solo al click DELL'ELEMENTO: RICHIAMA LA FUNZIONE showImageDetail CHE MOSTRA IL DETTAGLIO DELL'IMMAGINE CLICCATA E LE PASSA URL E CARDID
-/**
- * Funzione che cerca tutte le card generate e aggiunge l'event listener per  il click per aprire il dettaglio dell'immagine, passando come parametri: cardId e cardToShow, ottenuti con i due diversi metodi. 
- * cardId è stato ottenuto con i data-attributes inseriti nell'HTML, 
- * cardToShow rappresenta invece il singolo oggetto di una card ottenuta dall'array ricevuto con axios
- */
-const setCardsEventListeners = () => {
-    const cards = cardsRowElement.querySelectorAll('.card');
-    cards.forEach(cardEl => {
-        cardEl.addEventListener('click', (e) => {
-            // console.debug("Target: ", e.target);
-            // console.debug("Evento click di: ", e.target.dataset.id);
-            const cardId = parseInt(e.target.dataset.id);
-            // console.debug("cardId", cardId);
-            // console.debug("cardsDataArr", cardsDataArr);
-            const cardToShow = cardsDataArr.find(card => card.id === cardId);
-            // console.debug("cardToShow", cardToShow);
-            // todo CAPIRE SE HA PIU SENSO PASSARE NELLA FUNZIONE E.TARGET E SEPARARE LE INFORMAZIONI CHE MI SERVONO LI DENTRO
-            showImageDetail(cardToShow.url, cardId);
-        });
-    });
 };
 
 
@@ -225,13 +116,43 @@ const generateCardColumn = (cardData) => {
 
 
 
+// - FUNZIONE CHE CERCA TUTTE LE CARD GENERATE E AGGIUNGE L'EVENT LISTENER PER  IL CLICK PER APRIRE IL DETTAGLIO DELL'IMMAGINE
+    // - Solo al click DELL'ELEMENTO: RICHIAMA LA FUNZIONE showImageDetail CHE MOSTRA IL DETTAGLIO DELL'IMMAGINE CLICCATA E LE PASSA URL E CARDID
+/**
+ * Funzione che cerca tutte le card generate e aggiunge l'event listener per  il click per aprire il dettaglio dell'immagine, passando come parametri: cardId e cardToShow, ottenuti con i due diversi metodi. 
+ * cardId è stato ottenuto con i data-attributes inseriti nell'HTML, 
+ * cardToShow rappresenta invece il singolo oggetto di una card ottenuta dall'array ricevuto con axios
+ */
+const setCardsEventListeners = () => {
+    cardsElArr = cardsRowElement.querySelectorAll('.card');
+    console.debug('setCardsEventListeners cardsElArr', cardsElArr);
+
+    cardsElArr.forEach(cardEl => {
+        cardEl.addEventListener('click', (e) => {
+            // console.debug("Target: ", e.target);
+            // console.debug("Evento click di: ", e.target.dataset.id);
+            const cardId = parseInt(e.target.dataset.id);
+            // console.debug("cardId", cardId);
+            // console.debug("cardsDataArr", cardsDataArr);
+            const cardToShow = cardsDataArr.find(card => card.id === cardId);
+            // console.debug("cardToShow", cardToShow);
+            // todo CAPIRE SE HA PIU SENSO PASSARE NELLA FUNZIONE E.TARGET E SEPARARE LE INFORMAZIONI CHE MI SERVONO LI DENTRO
+            showImageDetail(cardToShow.url, cardId);
+        });
+    });
+};
 
 
 
- 
 
 
- 
+
+
+
+
+
+
+
 // # FUNZIONI CHE REAGISCONO ALL'UTENTE
 // - FUNZIONE CHE IMPOSTA L'URL DELL'IMMAGINE CLICCATA NELLA SCHERMATA CON IL DETTAGLIO DELL'IMMAGINE E MOSTRA LA SCHERMATA.
 // - (Chiamata al click di una card nel tabellone, i cui parametri vengono dal data-attribute nella card e dall'array delle informazioni ricevute dalla richiesta all'API)
@@ -316,10 +237,6 @@ const showCardImage = (cardId, imageURL) => {
 
 
 
-
-
-
- 
 // - FUNZIONE CHE IMPOSTA L'IMMAGINE DEL CARD-DETAIL E LO MOSTRA FISICAMENTE
 // - (Chiamata a catena al click di una card nel tabellone il cui parametro viene dall'array delle informazioni ricevute dalla richiesta all'API)
 /**
@@ -351,10 +268,13 @@ const hideImageDetailEl = () => {
 
 
 
- 
 
 
- 
+
+
+
+
+
 // # FUNZIONI UTILITY
 // - FUNZIONE CHE MOSTRA LO SPINNER DEL CARICAMENTO
 /**
@@ -373,91 +293,3 @@ const showSpinnerOverlayEl = () => {
 const hideSpinnerOverlayEl = () => {
     spinnerOverlayEl.classList.add('d-none');
 };
-
-
-const setAnimationType = (animationType = 'center') => {
-    // console.info(`Era: ${settings.animationType}`);
-    // console.info(`Cambiato in: ${animationType}`);
-    
-    settings.animationType = animationType;
-
-    const cards = cardsRowElement.querySelectorAll('.card');
-    // console.debug("cards", cards);
-
-    // let transformOriginString = 'center';
-    let transformOriginString = '';
-    if (animationType === 'center') {
-        transformOriginString
-        transformOriginString = 'center center';
-    } else if (animationType === 'pin') {
-        const examplePin = document.querySelector('.card-pin');
-        // console.debug("examplePin", examplePin);
-        // console.debug("examplePin.height", examplePin.height);
-        transformOriginString = `center ${examplePin.height / 4}px`;
-    } else {
-        console.error("Errore");
-    };
-
-    cards.forEach(cardEl => {
-        cardEl.style.transformOrigin = transformOriginString;
-    });
-};
-const setGalleryType = (galleryType = 'pinboard') => {
-    console.info(`Era: ${settings.galleryType}`);
-    console.info(`Cambiato in: ${galleryType}`);
-
-    settings.galleryType = galleryType;
-
-    if (galleryType === 'pinboard') {
-        cardsRowElement.classList.remove('free-carousel');
-        const cards = cardsRowElement.querySelectorAll('.card');
-        console.debug("setGalleryType free-carousel cards", cards);
-        cards.forEach(cardEl => {
-            cardEl.parentNode.className = 'col-12 col-sm-6 col-lg-4'; // ORIGINALE
-        })
-        cardsRowElement.firstElementChild.classList.remove('ms-5');
-        cardsRowElement.lastElementChild.classList.remove('me-5');
-        cardsRowElement.parentNode.classList.add('container');
-        cardsRowElement.parentNode.classList.remove('container-fluid');
-    } else if (galleryType === 'carousel') {
-
-    }else if (galleryType === 'free-carousel') {
-        // * AGGIUNGO CLASSE CHE DETERMINA IL TIPO DI CAROSELLO SCELTO
-        cardsRowElement.classList.add('free-carousel');
-
-        // * PRENDO TUTTE LE CARD E LE USO PER RISALIRE ALLE COLONNE CORRISPONDENTI, COSI DA POTERNE MODIFICARE LA DIMENSIONE PER LE DIVERSE DIMENSIONI DELLO SCHERMO TENENDO CONTO DEL FATTO CHE ORA SONO AFFIANCATE
-        // console.debug("setGalleryType free-carousel cardsRowElement", cardsRowElement);
-        const cards = cardsRowElement.querySelectorAll('.card');
-        console.debug("setGalleryType free-carousel cards", cards);
-        cards.forEach(cardEl => {
-            // console.debug(cardEl.parentNode.className);
-            // cardEl.parentNode.className = 'col-12 col-sm-6 col-lg-4'; // ORIGINALE
-            // cardEl.parentNode.className = 'col-12 col-sm-4 col-lg-3'; // SM E LG MODIFICATO
-            // cardEl.parentNode.className = 'col-12 col-sm-4 col-lg-4'; // SM MODIFICATO
-            // cardEl.parentNode.className = 'col-12 col-sm-6 col-md-4'; // MD AGGIUNTO E LG RIMOSSO (SOSTITUITO DA MD, NON SERVIVA PIU)
-            // cardEl.parentNode.className = 'col-12 col-sm-6 col-md-5 col-lg-4'; // MD AGGIUNTO
-            cardEl.parentNode.className = 'col-12 col-sm-6 col-md-5 col-lg-4 col-xl-3'; // MD E XL AGGIUNTO
-        });
-
-        // * AGGIUNGO SPAZIATURA SX E DX PER PRIMO E ULTIMO ELEMENTO DEL CAROSELLO
-        cardsRowElement.firstElementChild.classList.add('ms-5');
-        cardsRowElement.lastElementChild.classList.add('me-5');
-
-        // * RIMUOVO LIMITE DI LARGHEZZA DEL CONTAINER
-        cardsRowElement.parentNode.classList.remove('container');
-        cardsRowElement.parentNode.classList.add('container-fluid');
-    } else {
-        console.error("Errore");
-    };
-};
-
-
-
-
- 
-
-
- 
-// # DA ESEGUIRE ONLOAD
-// * CARICO LE CARD SUL TABELLONE AL CARICAMENTO DELLA PAGINA
-loadCards(apiUri);
